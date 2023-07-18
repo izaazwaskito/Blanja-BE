@@ -63,12 +63,7 @@ let categoryController = {
       rows: [count],
     } = await countData();
     const id_category = Number(count.count) + 1;
-    const role_user = req.payload.role_user;
-    try {
-      if (role_user != "seller") throw "You're Cannot Access this feature";
-    } catch (error) {
-      return commonHelper.response(res, null, 404, error);
-    }
+
     const data = {
       id_category,
       name_category,
@@ -84,12 +79,7 @@ let categoryController = {
       const id_category = Number(req.params.id);
       const { name_category } = req.body;
       const { rowCount } = await findId(id_category);
-      const role_user = req.payload.role_user;
-      try {
-        if (role_user != "seller") throw "You're Cannot Access this feature";
-      } catch (error) {
-        return commonHelper.response(res, null, 404, error);
-      }
+
       if (!rowCount) {
         res.json({ message: "ID Not Found" });
       }
@@ -115,12 +105,7 @@ let categoryController = {
     try {
       const id_category = Number(req.params.id);
       const { rowCount } = await findId(id_category);
-      const role_user = req.payload.role_user;
-      try {
-        if (role_user != "seller") throw "You're Cannot Access this feature";
-      } catch (error) {
-        return commonHelper.response(res, null, 404, error);
-      }
+
       if (!rowCount) {
         res.json({ message: "ID Not Found" });
       }
