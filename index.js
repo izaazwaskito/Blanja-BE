@@ -4,7 +4,6 @@ const createError = require("http-errors");
 const cors = require("cors");
 const helmet = require("helmet");
 const xss = require("xss-clean");
-const morgan = require("morgan");
 const mainRouter = require("./src/routes/index");
 const app = express();
 
@@ -12,7 +11,6 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 app.use(xss());
-app.use(morgan("dev"));
 app.use(express.static("upload"));
 const port = 7474;
 app.use("/", mainRouter);
