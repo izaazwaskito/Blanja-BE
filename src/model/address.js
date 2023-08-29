@@ -6,8 +6,8 @@ const selectAllAddress = ({ limit, offset, sort, sortby }) => {
   );
 };
 
-const selectAddress = (id_address) => {
-  return Pool.query(`SELECT * FROM address WHERE id_address = ${id_address}`);
+const selectAddress = (id_user) => {
+  return Pool.query(`SELECT * FROM address WHERE id_user = '${id_user}'`);
 };
 
 const insertAddress = (data) => {
@@ -19,9 +19,10 @@ const insertAddress = (data) => {
     postal_address,
     city_address,
     place_address,
+    id_user,
   } = data;
   return Pool.query(
-    `INSERT INTO address(id_address,name_address,street_address,phone_address,postal_address,city_address,place_address) VALUES(${id_address},'${name_address}', '${street_address}', '${phone_address}', '${postal_address}', '${city_address}', '${place_address}')`
+    `INSERT INTO address(id_address,name_address,street_address,phone_address,postal_address,city_address,place_address,id_user) VALUES(${id_address},'${name_address}', '${street_address}', '${phone_address}', '${postal_address}', '${city_address}', '${place_address}','${id_user}')`
   );
 };
 

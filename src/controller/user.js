@@ -1,11 +1,83 @@
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-let { insertUser, findEmail } = require("../model/user");
+let {
+  insertUser,
+  findEmail,
+  selectAllUser,
+  countData,
+  findId,
+  selectUser,
+  updateUser,
+} = require("../model/user");
 const authHelper = require("../helper/auth");
 const commonHelper = require("../helper/common");
 
 let userController = {
+  getAllUser: async (req, res) => {
+    try {
+      const page = Number(req.query.page) || 1;
+      const limit = Number(req.query.limit) || 100;
+      const offset = (page - 1) * limit;
+      const sortby = req.query.sortby || "id_user";
+      const sort = req.query.sort || "ASC";
+      let result = await selectAllUser({ limit, offset, sort, sortby });
+      const {
+        rows: [count],
+      } = await countData();
+      const totalData = parseInt(count.count);
+      const totalPage = Math.ceil(totalData / limit);
+      const pagination = {
+        currentPage: page,
+        limit: limit,
+        totalData: totalData,
+        totalPage: totalPage,
+      };
+      commonHelper.response(
+        res,
+        result.rows,
+        200,
+        "Get User Data Success",
+        pagination
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  getDetailUser: async (req, res) => {
+    const id_user = String(req.params.id);
+    const { rowCount } = await findId(id_user);
+    if (!rowCount) {
+      return res.json({ message: "ID Not Found" });
+    }
+    selectUser(id_user)
+      .then((result) => {
+        commonHelper.response(res, result.rows, 200, "Get User Detail Success");
+      })
+      .catch((err) => res.send(err));
+  },
+
+  updateUser: async (req, res) => {
+    try {
+      const id_user = String(req.params.id);
+      const { fullname_user, email_user, role_user } = req.body;
+      const data = {
+        id_user,
+        fullname_user,
+        email_user,
+        role_user,
+      };
+      updateUser(data)
+        .then((result) =>
+          commonHelper.response(res, result.rows, 200, "Update Product Success")
+        )
+        .catch((err) => res.send(err));
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   registerUser: async (req, res) => {
     let { fullname_user, email_user, password_user, role_user } = req.body;
     const { rowCount } = await findEmail(email_user);

@@ -1,22 +1,22 @@
 const Pool = require("../config/db");
 
 const selectAllOrder = ({ limit, offset, sort, sortby }) => {
-  return Pool.query(`SELECT order_list.id_order, product.name_product, order_list.quantity_order, product.price_product*order_list.quantity_order AS total_order, order_list.date_order, product.image_product
+  return Pool.query(`SELECT order_list.id_order, product.name_product, order_list.quantity_order, product.price_product*order_list.quantity_order AS total_order, product.image_product
     FROM order_list
     INNER JOIN product ON order_list.id_product = product.id_product
     ORDER BY ${sortby} ${sort} LIMIT ${limit} OFFSET ${offset}`);
 };
 
-const selectOrder = (id_order) => {
-  return Pool.query(`SELECT order_list.id_order, product.name_product, order_list.quantity_order, product.price_product*order_list.quantity_order AS total_order, order_list.date_order, product.image_product
+const selectOrder = (id_user) => {
+  return Pool.query(`SELECT order_list.id_order, product.name_product, order_list.quantity_order, product.price_product*order_list.quantity_order AS total_order, product.image_product
   FROM order_list
-  INNER JOIN product ON order_list.id_product = product.id_product WHERE id_order = ${id_order}`);
+  INNER JOIN product ON order_list.id_product = product.id_product WHERE id_user = '${id_user}'`);
 };
 
 const insertOrder = (data) => {
-  const { id_order, id_product, quantity_order, date_order } = data;
+  const { id_order, id_product, quantity_order, id_user } = data;
   return Pool.query(
-    `INSERT INTO order_list(id_order, id_product, quantity_order, date_order) VALUES(${id_order},${id_product},${quantity_order}, '${date_order}')`
+    `INSERT INTO order_list(id_order, id_product, quantity_order, id_user) VALUES(${id_order},${id_product},${quantity_order},'${id_user}' )`
   );
 };
 

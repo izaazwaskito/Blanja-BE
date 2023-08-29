@@ -1,9 +1,7 @@
 const Pool = require("../config/db");
 
 const selectAllProduct = ({ limit, offset, sort, sortby, search }) => {
-  return Pool.query(`SELECT product.id_product, category.id_category, product.name_product,  product.price_product, product.description_product, product.stock_product, product.image_product
-    FROM category
-    INNER JOIN product ON category.id_category = product.id_category
+  return Pool.query(`SELECT product.id_product, product.name_product, category.name_category, product.price_product,product.description_product, product.stock_product, product.image_product FROM category INNER JOIN product ON category.id_category = product.id_category 
     WHERE name_product ILIKE '%${search}%'
     ORDER BY ${sortby} ${sort} LIMIT ${limit} OFFSET ${offset}`);
 };
