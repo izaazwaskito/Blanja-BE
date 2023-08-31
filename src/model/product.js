@@ -1,7 +1,7 @@
 const Pool = require("../config/db");
 
 const selectAllProduct = ({ limit, offset, sort, sortby, search }) => {
-  return Pool.query(`SELECT product.id_product, product.name_product, category.name_category, product.price_product,product.description_product, product.stock_product, product.image_product FROM category INNER JOIN product ON category.id_category = product.id_category 
+  return Pool.query(`SELECT product.id_product,  product.name_product, category.name_category, product.price_product,product.description_product, product.stock_product, product.image_product FROM category INNER JOIN product ON category.id_category = product.id_category 
     WHERE name_product ILIKE '%${search}%'
     ORDER BY ${sortby} ${sort} LIMIT ${limit} OFFSET ${offset}`);
 };
@@ -9,7 +9,14 @@ const selectAllProduct = ({ limit, offset, sort, sortby, search }) => {
 const selectProduct = (id_product) => {
   return Pool.query(`SELECT product.id_product, product.name_product, category.name_category, product.price_product, product.description_product, product.stock_product, product.image_product
   FROM category
-  INNER JOIN product ON category.id_category = product.id_category WHERE id_product = ${id_product}`);
+  INNER JOIN product ON category.id_category = product.id_category
+  WHERE id_product = ${id_product}`);
+};
+
+const selectProductBySeller = (id_seller) => {
+  return Pool.query(`SELECT product.id_product, product.name_product, category.name_category, product.price_product, product.description_product, product.stock_product, product.image_product
+  FROM category
+  INNER JOIN product ON category.id_category = product.id_category WHERE id_seller = '${id_seller}'`);
 };
 
 const insertProduct = (data) => {
@@ -21,9 +28,10 @@ const insertProduct = (data) => {
     description_product,
     stock_product,
     image_product,
+    id_seller,
   } = data;
-  return Pool.query(`INSERT INTO product(id_product, id_category, name_product, price_product, description_product, stock_product, image_product) 
-    VALUES (${id_product}, ${id_category}, '${name_product}', ${price_product}, '${description_product}', ${stock_product}, '${image_product}')`);
+  return Pool.query(`INSERT INTO product(id_product, id_category, name_product, price_product, description_product, stock_product, image_product,id_seller) 
+    VALUES (${id_product}, ${id_category}, '${name_product}', ${price_product}, '${description_product}', ${stock_product}, '${image_product}', '${id_seller}')`);
 };
 
 const updateProduct = (data) => {
@@ -74,6 +82,7 @@ const searchNameProduct = ({ keywords }) => {
 module.exports = {
   selectAllProduct,
   selectProduct,
+  selectProductBySeller,
   insertProduct,
   updateProduct,
   deleteProduct,

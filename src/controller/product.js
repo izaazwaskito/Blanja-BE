@@ -2,6 +2,7 @@ let {
   selectAllProduct,
   selectProduct,
   insertProduct,
+  selectProductBySeller,
   updateProduct,
   deleteProduct,
   countData,
@@ -73,6 +74,25 @@ let productController = {
       })
       .catch((err) => res.send(err));
   },
+  getDetailProductBySeller: async (req, res) => {
+    const id_seller = String(req.params.id);
+    selectProductBySeller(id_seller)
+      .then((result) => {
+        // client.setEx(
+        //   `product/${id_product}`,
+        //   60 * 60,
+        //   JSON.stringify(result.rows)
+        // );
+        commonHelper.response(
+          res,
+          result.rows,
+          200,
+          "get data success from database"
+        );
+        // commonHelper.response(res,result.rows,200,"Get Product Detail Success");
+      })
+      .catch((err) => res.send(err));
+  },
   createProduct: async (req, res) => {
     const result = await cloudinary.uploader.upload(req.file.path);
     const image_product = result.secure_url;
@@ -82,6 +102,7 @@ let productController = {
       price_product,
       description_product,
       stock_product,
+      id_seller,
     } = req.body;
     const {
       rows: [count],
@@ -95,6 +116,7 @@ let productController = {
       description_product,
       stock_product,
       image_product,
+      id_seller,
     };
     insertProduct(data)
       .then((result) =>
@@ -139,10 +161,6 @@ let productController = {
   deleteProduct: async (req, res) => {
     try {
       const id_product = Number(req.params.id);
-      const { rowCount } = await findId(id_product);
-      if (!rowCount) {
-        res.json({ message: "ID is Not Found" });
-      }
       deleteProduct(id_product)
         .then((result) =>
           commonHelper.response(res, result.rows, 200, "Delete Product Success")
