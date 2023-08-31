@@ -5,11 +5,11 @@
   </div>
   <h3 align="center">Blanja</h3>
   <p align="center">
-    <a href="https://github.com/dhimasswara/BE-BLANJA"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/izaazwaskito/Blanja-BE"><strong>Explore the docs »</strong></a>
     <br />
-    <a href="https://ui-blanja.vercel.app/">View Demo</a>
+    <a href="https://blanja-fe-two.vercel.app/">View Demo</a>
     ·
-    <a href="https://be-blanja-production.up.railway.app/">Api Demo</a>
+    <a href="https://fair-gold-underwear.cyclic.app/">Api Demo</a>
   </p>
 </p>
 
@@ -62,7 +62,7 @@ cd Blanja-BE
 npm install
 ```
 
-4. Create PostgreSQL database, query are provided in [query.sql](./docs/query.sql)
+4. Create PostgreSQL database, query are provided in [query.sql](./query.sql)
 
 5. Create and configure `.env` file in the root directory, example credentials are provided in [.env.example](./.env.example)
 
@@ -94,7 +94,7 @@ npm run lint
 Documentation files are provided in the [docs](./docs) folder
 
 - [Postman API colletion]()
-- [PostgreSQL database query](./docs/query.sql)
+- [PostgreSQL database query](./query.sql)
 
 API endpoint list are also available as published postman documentation
 
