@@ -7,9 +7,9 @@
   <p align="center">
     <a href="https://github.com/izaazwaskito/Blanja-BE"><strong>Explore the docs »</strong></a>
     <br />
-    <a href="https://blanja-fe-two.vercel.app/">View Demo</a>
+    <a href="https://blanja-fe-khaki.vercel.app/">View Demo</a>
     ·
-    <a href="https://fair-gold-underwear.cyclic.app/">Api Demo</a>
+    <a href="https://blanja-be-alpha.vercel.app/">Api Demo</a>
   </p>
 </p>
 
@@ -106,6 +106,6 @@ API endpoint list are also available as published postman documentation
 
 :rocket: [`Frontend Blanja`](https://github.com/izaazwaskito/Blanja-FE)
 
-:rocket: [`Demo Blanja`](https://vercel.com/izaazwaskito/blanja-fe)
+:rocket: [`Demo Blanja`](https://blanja-fe-khaki.vercel.app/)
 
 Project link : [https://github.com/izaazwaskito/Blanja-BE](https://github.com/izaazwaskito/Blanja-BE))
