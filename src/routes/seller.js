@@ -4,6 +4,7 @@ const sellerController = require("../controller/seller");
 router
   .post("/register", sellerController.registerSeller)
   .post("/login", sellerController.loginSeller)
+  .get("/verify", sellerController.VerifyAccount)
   .put("/update/:id", sellerController.updateSeller)
   .get("/profile", sellerController.getAllSeller)
   .get("/:id", sellerController.getDetailSeller);

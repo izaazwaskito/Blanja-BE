@@ -9,9 +9,40 @@ const insertSeller = (data) => {
     passwordHash_seller,
     name_seller,
     description_seller,
+    verify,
   } = data;
-  return Pool.query(`INSERT INTO seller(id_seller, email_seller, password_seller, name_seller, description_seller, store_seller,phone_seller) 
-    VALUES ('${id_seller}','${email_seller}','${passwordHash_seller}','${name_seller}','${description_seller}','${store_seller}','${phone_seller}')`);
+  return Pool.query(`INSERT INTO seller(id_seller, email_seller, password_seller, name_seller, description_seller, store_seller,phone_seller,verify) 
+    VALUES ('${id_seller}','${email_seller}','${passwordHash_seller}','${name_seller}','${description_seller}','${store_seller}','${phone_seller}','${verify}')`);
+};
+
+const createSellerVerification = (seller_verification_id, seller_id, token) => {
+  return Pool.query(
+    `insert into seller_verification ( id , seller_id , token ) values ( '${seller_verification_id}' , '${seller_id}' , '${token}' )`
+  );
+};
+
+const checkSellerVerification = (queryUsersId, queryToken) => {
+  return Pool.query(
+    `select * from seller_verification where seller_id='${queryUsersId}' and token = '${queryToken}' `
+  );
+};
+
+const cekSeller = (email_seller) => {
+  return Pool.query(
+    `select verify from seller where email_seller = '${email_seller}'`
+  );
+};
+
+const deleteSellerVerification = (queryUsersId, queryToken) => {
+  return Pool.query(
+    `delete from seller_verification  where seller_id='${queryUsersId}' and token = '${queryToken}' `
+  );
+};
+
+const updateAccountVerification = (queryUsersId) => {
+  return Pool.query(
+    `update seller set verify='true' where id_seller='${queryUsersId}' `
+  );
 };
 
 const updateSeller = (data) => {
@@ -58,7 +89,7 @@ const countData = () => {
 const findId = (id_seller) => {
   return new Promise((resolve, reject) =>
     Pool.query(
-      `SELECT id_seller FROM seller WHERE id_seller='${id_seller}'`,
+      `SELECT * FROM seller WHERE id_seller='${id_seller}'`,
       (error, result) => {
         if (!error) {
           resolve(result);
@@ -78,4 +109,9 @@ module.exports = {
   selectSeller,
   countData,
   findId,
+  createSellerVerification,
+  checkSellerVerification,
+  cekSeller,
+  deleteSellerVerification,
+  updateAccountVerification,
 };

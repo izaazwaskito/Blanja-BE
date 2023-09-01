@@ -4,6 +4,7 @@ const userController = require("../controller/user");
 router
   .post("/register", userController.registerUser)
   .post("/login", userController.loginUser)
+  .get("/verify", userController.VerifyAccount)
   .put("/update/:id", userController.updateUser)
   .get("/profile", userController.getAllUser)
   .get("/:id", userController.getDetailUser);
