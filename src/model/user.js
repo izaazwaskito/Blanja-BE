@@ -60,6 +60,13 @@ const updateUser = (data) => {
   );
 };
 
+const updateUserPhoto = (data) => {
+  const { id_user, photo_user } = data;
+  return Pool.query(
+    `UPDATE users SET photo_user = '${photo_user}' WHERE id_user = '${id_user}'`
+  );
+};
+
 const findId = (id_user) => {
   return new Promise((resolve, reject) =>
     Pool.query(
@@ -107,4 +114,5 @@ module.exports = {
   cekUser,
   updateAccountVerification,
   deleteUsersVerification,
+  updateUserPhoto,
 };

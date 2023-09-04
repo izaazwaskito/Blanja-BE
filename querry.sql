@@ -1,3 +1,4 @@
+-- Active: 1692284831732@@147.139.210.135@5432@izaaz01@public
 CREATE TABLE category
 (
     id_category INT PRIMARY KEY,
@@ -21,8 +22,39 @@ CREATE TABLE users
     email_user VARCHAR(255),
     password_user VARCHAR(255),
     fullname_user VARCHAR(255),
-    role_user VARCHAR(255)
+    role_user VARCHAR(255),
+    verify text not null,
+    updated_on timestamp default CURRENT_TIMESTAMP not null,
+    primary key (id_user)
 );
+
+create table users_verification
+(
+    id text not null ,
+    users_id text ,
+    token text ,
+    created_on timestamp default CURRENT_TIMESTAMP not null	,
+    constraint 	users foreign key(users_id) 	references 	users(id_user) ON DELETE CASCADE,
+    primary key (id)
+)
+
+CREATE  FUNCTION update_updated_on_users()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_on = now
+();
+RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_users_updated_on
+    BEFORE
+UPDATE
+    ON
+        users
+    FOR EACH ROW
+EXECUTE PROCEDURE update_updated_on_users
+();
 
 CREATE TABLE address
 (
@@ -44,7 +76,40 @@ CREATE TABLE seller
     name_seller VARCHAR(255),
     password_seller VARCHAR(255),
     description_seller TEXT,
-    store_seller VARCHAR(255)
+    store_seller VARCHAR(255),
+    verify TEXT NOT NULL,
+    primary key (id_seller),
+    updated_on timestamp default CURRENT_TIMESTAMP not null
+)
+
+
+
+CREATE  FUNCTION update_updated_on_seller()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_on = now
+();
+RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_seller_updated_on
+    BEFORE
+UPDATE
+    ON
+        seller
+    FOR EACH ROW
+EXECUTE PROCEDURE update_updated_on_seller
+();
+
+create table seller_verification
+(
+    id text not null ,
+    seller_id text ,
+    token text ,
+    created_on timestamp default CURRENT_TIMESTAMP not null	,
+    constraint 	seller foreign key(seller_id) 	references 	seller(id_seller) ON DELETE CASCADE,
+    primary key (id)
 )
 
 CREATE TABLE order_list

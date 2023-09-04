@@ -58,6 +58,13 @@ const updateSeller = (data) => {
   );
 };
 
+const updateSellerPhoto = (data) => {
+  const { id_seller, photo_seller } = data;
+  return Pool.query(
+    `UPDATE seller SET photo_seller = '${photo_seller}' WHERE id_seller = '${id_seller}'`
+  );
+};
+
 const selectAllSeller = ({ limit, offset, sort, sortby }) => {
   return Pool.query(
     `SELECT * FROM seller ORDER BY ${sortby} ${sort} LIMIT ${limit} OFFSET ${offset}`
@@ -114,4 +121,5 @@ module.exports = {
   cekSeller,
   deleteSellerVerification,
   updateAccountVerification,
+  updateSellerPhoto,
 };

@@ -14,10 +14,12 @@ let {
   updateAccountVerification,
   deleteUsersVerification,
   cekUser,
+  updateUserPhoto,
 } = require("../model/user");
 const authHelper = require("../helper/auth");
 const commonHelper = require("../helper/common");
 const sendemail = require("../middlewares/sendemail");
+const cloudinary = require("../middlewares/cloudinary");
 const crypto = require("crypto");
 
 let userController = {
@@ -78,6 +80,29 @@ let userController = {
       updateUser(data)
         .then((result) =>
           commonHelper.response(res, result.rows, 200, "Update Product Success")
+        )
+        .catch((err) => res.send(err));
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  updateUserPhoto: async (req, res) => {
+    try {
+      const id_user = String(req.params.id);
+      let photo_user = null;
+      if (req.file) {
+        const result = await cloudinary.uploader.upload(req.file.path);
+        photo_user = result.secure_url;
+      }
+      const data = {
+        id_user,
+        photo_user,
+      };
+
+      updateUserPhoto(data)
+        .then((result) =>
+          commonHelper.response(res, result.rows, 200, "Update Users Success")
         )
         .catch((err) => res.send(err));
     } catch (error) {
